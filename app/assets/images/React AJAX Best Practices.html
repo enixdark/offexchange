@@ -1,0 +1,280 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link rel="stylesheet" href="React%20AJAX%20Best%20Practices_files/style.css"><script async="" src="React%20AJAX%20Best%20Practices_files/analytics.js"></script><script src="React%20AJAX%20Best%20Practices_files/site.js"></script><link href="http://andrewhfarmer.com/img/favicon@2x.png" rel="icon" type="image/png"><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67829286-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="alternate" type="application/rss+xml" title="RSS Feed for andrewhfarmer.com" href="http://andrewhfarmer.com/rss.xml"><title>React AJAX Best Practices</title><meta name="title" content="React AJAX Best Practices"><meta name="description" content="Four good ways to use AJAX with React."><meta itemprop="title" content="React AJAX Best Practices"><meta itemprop="description" content="Four good ways to use AJAX with React."><meta itemprop="image" content="http://andrewhfarmer.com/react-ajax-best-practices/img/container-components.png"><meta name="twitter:card" content="summary"><meta name="twitter:site" content="@ahfarmer"><meta name="twitter:creator" content="@ahfarmer"><meta name="twitter:title" content="React AJAX Best Practices"><meta name="twitter:description" content="Four good ways to use AJAX with React."><meta name="twitter:image" content="http://andrewhfarmer.com/react-ajax-best-practices/img/container-components.png"><meta property="og:title" content="React AJAX Best Practices"><meta property="og:type" content="article"><meta property="og:url" content="http://andrewhfarmer.com/react-ajax-best-practices/"><meta property="og:description" content="Four good ways to use AJAX with React."><meta property="og:site_name" content="Andrew H Farmer"><meta property="og:image" content="http://andrewhfarmer.com/react-ajax-best-practices/img/container-components.png"><script type="text/javascript" src="React%20AJAX%20Best%20Practices_files/jquery.js"></script><script src="React%20AJAX%20Best%20Practices_files/embed.html" data-timestamp="1479003517779"></script></head><body><nav><div class="stripe"></div><div class="links"><a class="home" href="http://andrewhfarmer.com/"><div class="circle"><img class="my-face" src="React%20AJAX%20Best%20Practices_files/me.jpg"><div class="home-icon"></div></div><div class="name-title"><div class="title">Modern JS with React</div><div class="name">Andrew H Farmer</div></div></a><div class="spacer"></div><a class="about" href="http://andrewhfarmer.com/about"><div>About</div></a></div></nav><header class="heading"><div class="container"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1"><div class="post-heading"><a href=""><h1>React AJAX Best Practices</h1></a><hr><div class="date">February 05, 2016</div></div></div></div></div></header><div class="container"><div class="row post-content"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><p>When you start asking about AJAX and React, the first thing the experts will tell you is that <em>React is a view library</em> and <strong>React has no networking/AJAX features.</strong></p>
+<p>It's good to know, but not very helpful when you just want to get data from the server into your React components.</p>
+<p>The truth is, there are a ton of ways to do it. You probably have thought of a couple ways yourself, but <strong>if you choose the wrong way, your code could get messy.</strong></p>
+<p>So you're left wondering: what is the 'right' or 'preferred' way?</p>
+<style>
+blockquote > p {
+  font-size: 2rem;
+}
+</style>
+
+<blockquote>
+<p>What is the <strong>best practice</strong> for getting server data into React components?</p>
+</blockquote>
+<p>And the answer is.... <em>it depends.</em></p>
+<h2 id="four-ways">Four Ways</h2>
+<p>I've collected <strong>four good ways</strong> to use AJAX with React.</p>
+<p>Which approach you use depends on the size and complexity of your 
+app, along with which libraries or technologies you are already using.</p>
+<style>
+  .infographic {
+    display: flex;
+  }
+
+  .infographic a {
+    display: block;
+    padding-left: 1rem;
+    min-height: 5rem;
+  }
+
+  .infographic > div > h4 {
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
+
+  .infographic > div {
+    flex: 1 1 auto;
+    display: flex;
+  }
+
+  .infographic > div > div {
+    margin-right: 4rem;
+    flex: 1 1 auto;
+  }
+
+  .infographic > div:last-child > div:last-child {
+    margin-right: 0;
+  }
+
+  .infographic img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  @media (max-width: 600px) {
+    .infographic {
+      flex-wrap: wrap;
+    }
+    .infographic > div:last-child {
+      padding-top: 2rem;
+    }
+    .infographic > div > div:last-child {
+      margin-right: 0;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .infographic h4 {
+      font-size: 12pt;
+    }
+    .infographic > div {
+      margin-right: 1rem;
+    }
+  }
+</style>
+
+<div id="toc" class="infographic">
+  <div>
+    <div>
+      <a href="#1-root-component">1. Root Component</a>
+      <img src="React%20AJAX%20Best%20Practices_files/root-component.png" alt="Root Component">
+    </div>
+    <div>
+      <a href="#2-container-components">2. Container Components</a>
+      <img src="React%20AJAX%20Best%20Practices_files/container-components.png" alt="Container Components">
+    </div>
+  </div>
+  <div>
+    <div>
+      <a href="#3-redux-async-actions">3. Redux Async Actions</a>
+      <img src="React%20AJAX%20Best%20Practices_files/redux-async-actions.png" alt="Redux Async Actions">
+    </div>
+    <div>
+      <a href="#4-relay">4. Relay</a>
+      <img src="React%20AJAX%20Best%20Practices_files/relay.png" alt="Relay">
+    </div>
+  </div>
+</div>
+
+
+<style>
+img.diagram {
+  margin-left: 3rem;
+  float: right;
+}
+
+@media (max-width: 600px) {
+  img.diagram {
+    display: block;
+    margin: 0 auto;
+    float: none;
+  }
+}
+</style>
+
+<div class="header"><h2 id="1-root-component">1. Root Component</h2>
+<a class="toc" href="#toc"></a></div><p>This is the <strong>simplest approach</strong> so it's great for prototypes and small apps.</p>
+<p>With this approach, you build a <strong>single root/parent component</strong> that issues all your AJAX requests. The root component stores the AJAX response data in it's <code>state</code>, and passes that state (or a portion of it) down to child components as props.</p>
+<p><img class="diagram" src="React%20AJAX%20Best%20Practices_files/root-component.png" alt="Root Component" width="200"></p>
+<p>For an example of this approach take a look at the <a href="http://facebook.github.io/react/docs/tutorial.html" target="_blank">official React tutorial</a>. The <code>CommentBox</code> component is the root component that sends all the AJAX requests.</p>
+<p><strong>The thing I don't like about the official tutorial:</strong> they are using jQuery to send AJAX requests. jQuery is a large library with many features, so using it <em>just</em> for AJAX doesn't make sense.</p>
+<p>I recommend using <code>fetch()</code>. It is a simple, standardized,
+ JavaScript AJAX API. It is already supported by Chrome and Firefox, and
+ polyfills are available for node and other browsers. For details, or 
+for help choosing your own AJAX library, see my <a href="http://andrewhfarmer.com/ajax-libraries">AJAX library comparison</a>.</p>
+<p><strong>Another caveat:</strong> if you have a deep component tree 
+(subcomponents of subcomponents of subcomponents...) then you will have 
+to pass data a long way from the root component to your deeper 
+components.</p>
+<style>
+.when {
+
+  background-color: #FCECEC; /* #DAE8FB; */
+  padding: 14px 20px 20px 20px;
+  border-radius: 4px;
+  border: 1px solid #F5A9A8; /* #468EE5; */
+}
+.when .title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.when ul {
+  margin-bottom: 0;
+  padding-left: 2rem;
+}
+</style>
+
+<div class="when">
+  <div class="title">
+    When to use a root component:
+  </div>
+  <ul>
+    <li>You have a shallow component tree.</li>
+    <li>You're not using Redux or flux.</li>
+  </ul>
+</div>
+
+
+
+<div class="header"><h2 id="2-container-components">2. Container Components</h2>
+<a class="toc" href="#toc"></a></div><p>A container component <em>"provides the data and behavior to presentational or other container components."</em> If you haven't heard the term yet, I suggest Dan Abramov's article on <a href="https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0" target="_blank">presentational and container components</a>.</p>
+<p><img class="diagram" src="React%20AJAX%20Best%20Practices_files/container-components.png" alt="Container Components" width="200"></p>
+<p>For our purposes, the <em>container component</em> approach is just like the <em>root component</em> approach, except with multiple components that can interact with the server.</p>
+<p><strong>Here's how it works:</strong> for every <em>presentational component</em> that needs data from the server, create a <em>container component</em> that sends AJAX requests to get that data, and provides it to the child component via props.</p>
+<p>As a <strong>concrete example,</strong> imagine you want to display a user profile with a name and a picture.</p>
+<p>First build a <code>&lt;UserProfile /&gt;</code> presentational component that accepts a <code>name</code> and a <code>profileImage</code> prop. This component should not have any AJAX code.</p>
+<p>Then build a <code>&lt;UserProfileContainer /&gt;</code> component that accepts a <code>userId</code>. It downloads the data for that particular user, and passes it to <code>&lt;UserProfile /&gt;</code> via props.</p>
+<p>The AJAX requests in the <em>container components</em> can be sent with a simple AJAX library. <a href="http://andrewhfarmer.com/ajax-libraries">I recommend fetch()</a>.</p>
+<div class="when">
+  <div class="title">
+    When to use container components for AJAX:
+  </div>
+  <ul>
+    <li>You have a deep component tree.</li>
+    <li>Many of your components do not require data from the server, but some do.</li>
+    <li>You are fetching data from multiple APIs or endpoints.</li>
+    <li>You're not using Redux/flux, or you prefer container components to 'async actions'.</li>
+  </ul>
+</div>
+
+
+
+<div class="header"><h2 id="3-redux-async-actions">3. Redux Async Actions</h2>
+<a class="toc" href="#toc"></a></div><p><img class="diagram" src="React%20AJAX%20Best%20Practices_files/redux-async-actions.png" alt="Redux Async Actions" width="200"></p>
+<p>Redux manages data, and AJAX provides data from the server, so it 
+makes sense that your Redux code should be handling your network 
+requests.</p>
+<p>If you are using Redux, <em>don't put AJAX in your React components.</em> Instead, put it in your <a href="http://redux.js.org/docs/advanced/AsyncActions.html" target="_blank">Async Actions</a>.</p>
+<p>I recommend using <a href="http://andrewhfarmer.com/ajax-libraries">fetch()</a>
+ to make the actual network requests, and luckily, that's also what 
+Redux uses in their official documentation. They've even written an <a href="http://redux.js.org/docs/advanced/ExampleRedditAPI.html" target="_blank">example reddit API</a> that uses Redux, React, and <em>fetch()</em>.</p>
+<p>If you are using <em>another flux,</em> the approach is similar - send network requests in your actions.</p>
+<div class="when">
+  <div class="title">
+    When to use a Redux Async Actions:
+  </div>
+  <ul>
+    <li>If you're using Redux, this is the way to go.</li>
+    <li>If you're using another flux, there will be a similar approach you can use.</li>
+  </ul>
+</div>
+
+
+
+<div class="header"><h2 id="4-relay">4. Relay</h2>
+<a class="toc" href="#toc"></a></div><p><img class="diagram" src="React%20AJAX%20Best%20Practices_files/relay.png" alt="Relay" width="200"></p>
+<p>With <a href="http://facebook.github.io/relay/" target="_blank">Relay</a>,
+ you declare the data needs of your React components with GraphQL, and 
+Relay automatically downloads that data and fills out the component 
+props.</p>
+<p>Relay works great for large applications, but requires a large up-front time investment. You need to:</p>
+<ul>
+<li>Learn about Relay and GraphQL.</li>
+<li>Specify the data needs of your React components with GraphQL (instead of propTypes).</li>
+<li>Set up a GraphQL server.</li>
+</ul>
+<p>Relay is only meant to communicate with GraphQL servers, so it won't help you communicate with any 3rd party APIs.</p>
+<p>Currently, <strong>Relay can only communicate with a single GraphQL server</strong>,
+ so if you are getting data from multiple sources, this approach is not 
+for you. The ability to communicate with multiple servers will likely be
+ added in the future, it is discussed deep in this <a href="https://github.com/facebook/relay/issues/114" target="_blank">github issue</a>.</p>
+<p>If you're going with this approach, the <a href="https://facebook.github.io/relay/prototyping/playground.html" target="_blank">Relay Playground</a> is a great place to start figuring out how Relay works.</p>
+<div class="when">
+  <div class="title">
+    When to use Relay:
+  </div>
+  <ul>
+    <li>You're building a large application and are worried about the <a href="https://facebook.github.io/react/blog/2015/05/01/graphql-introduction.html#why-invent-something-new" target="_blank">problems that Relay was designed to solve</a>.</li>
+    <li>You don't have a JSON API built yet.</li>
+    <li>You are willing to set up a GraphQL server.</li>
+    <li>Your app will only communicate with a single server.</li>
+  </ul>
+</div>
+
+
+
+<h2 id="bonus-anti-patterns">Bonus: Anti-patterns</h2>
+<p>If all of the above ways are correct, then which ways aren't correct?
+Here are 2 common approaches that I suggest avoiding.</p>
+<h4 id="anti-pattern-1-ajax-requests-in-presentational-components-">Anti-pattern 1: AJAX requests in presentational components.</h4>
+<p>Don't add AJAX logic to a component that is already responsible for 
+something else - like complex interface rendering. Doing so would 
+violate the <a href="https://en.wikipedia.org/wiki/Separation_of_concerns" target="_blank">separation of concerns</a> design principle.</p>
+<h4 id="anti-pattern-2-reactdom-render-">Anti-pattern 2: ReactDOM.render()</h4>
+<p>You could have AJAX logic living outside of React entirely and call  <a href="https://facebook.github.io/react/docs/top-level-api.html#reactdom.render" target="_blank">ReactDOM.render()</a> whenever you receive an update from the server.</p>
+<p>This approach might work okay. I list it as an antipattern because I believe the <a href="#1-root-component">root component</a> approach is similar, but cleaner.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Applications built with React are <em>modular.</em> React is just one of the modules. The AJAX library is another. This isn't Rails or Angular.</p>
+<p>You might sometimes need help figuring out what the other modules are and how they fit together.</p>
+<p><em>What's the best library for X?</em> and <em>How do I use React with Y?</em> - These are the kinds of questions you'll see answered on this blog - with regular new posts.</p>
+<p>Sign up for the newsletter. If you keep reading the articles, you'll <strong>always know the <em>best way</em> to build your React app.</strong></p>
+</div></div><div class="row"><div class="col-lg-6 col-lg-offset-3 col-md-8 col-md-offset-2 col-sm-12 col-sm-offset-0"><script src="React%20AJAX%20Best%20Practices_files/CKJS4.js"></script><div class="ck_form ck_vertical_subscription_form ck_horizontal"><div class="ck_form_content"><h3 class="ck_form_title">The world of JavaScript is moving fast these days...</h3><div class="ck_description"><span class="ck_image"></span><p>I'll keep you up-to-date on tools and best practices.</p></div></div><div class="ck_form_fields"><div id="ck_success_msg" style="display:none"><p>Success! Now check your email to confirm your subscription.</p></div><!-- Form starts here--><form class="ck_subscribe_form" id="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/9893/subscribe" data-remote="true"><input id="ck_form_options" value="{&quot;form_style&quot;:&quot;full&quot;,&quot;embed_style&quot;:&quot;inline&quot;,&quot;embed_trigger&quot;:&quot;scroll_percentage&quot;,&quot;scroll_percentage&quot;:&quot;70&quot;,&quot;delay_seconds&quot;:&quot;10&quot;,&quot;display_position&quot;:&quot;br&quot;,&quot;display_devices&quot;:&quot;all&quot;,&quot;days_no_show&quot;:&quot;15&quot;,&quot;converted_behavior&quot;:&quot;show&quot;}" type="hidden"><input id="landing_page_id" name="id" value="9893" type="hidden"><div class="ck_errorArea"><div id="ck_error_msg" style="display:none"><p>There was an error submitting your subscription. Please try again.</p></div></div><div class="ck_control_group ck_first_name_field_group"><label class="ck_label" for="ck_firstNameField">First Name</label><input class="ck_first_name" id="ck_firstNameField" name="first_name" type="text"></div><div class="ck_control_group ck_email_field_group"><label class="ck_label" for="ck_emailField">Email Address</label><input class="ck_email_address" id="ck_emailField" name="email" required="" type="email"></div><button class="subscribe_button ck_subscribe_button btn fields" id="ck_subscribe_button">Subscribe</button><span class="ck_guarantee">No spam ever! Unsubscribe at any time.</span></form></div></div></div></div><div class="container author-footer"><h3>ABOUT THE AUTHOR</h3><div class="bio"><div class="author-img"><a href="http://andrewhfarmer.com/about"><img class="avatar photo" alt="Andrew H Farmer" src="React%20AJAX%20Best%20Practices_files/me.jpg" width="50" height="50"></a></div><div class="author-info"><h4 class="author-name">Andrew H Farmer</h4><div>Hey, I'm Andrew. Welcome to my blog on <b>Modern JavaScript with React.</b>
+ I'm constantly searching the web to stay up-to-date on the latest 
+frontend web tools so you don't have to. Got a question? Tweet me  <a href="http://twitter.com/ahfarmer">@ahfarmer</a>!</div></div></div></div><div class="next-prev"><div class="prev"></div><div class="gap"></div><div class="next"></div></div><div id="disqus_thread"></div><script>var disqus_config = function () {
+    this.page.url = 'http://andrewhfarmer.com/react-ajax-best-practices';  
+    this.page.identifier = 'react-ajax-best-practices';
+};
+
+(function() {
+    var d = document, s = d.createElement('script');
+    
+    s.src = '//andrewhfarmer.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript></div><hr><footer><div class="container"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class="center"><a href="http://andrewhfarmer.com/">Home</a><span class="bullet"> 😄 </span><a href="http://andrewhfarmer.com/about">About</a></div><div class="center" style="margin-top: 20px">React questions? Just ask!<span> </span><a href="http://twitter.com/ahfarmer">@ahfarmer</a></div><p class="copyright text-muted">Copyright © Sunny Evening 2015</p></div></div></div></footer></body></html>
